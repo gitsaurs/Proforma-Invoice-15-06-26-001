@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netsaurs — Proforma Invoice PI-2026-001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #E8E3DC;
+    --bg2: #DDD8D0;
+    --neo-light: #F5F1EC;
+    --neo-dark: #C8C3BB;
+    --ink: #1A1714;
+    --ink2: #3D3830;
+    --muted: #7A7268;
+    --red: #D93B2B;
+    --green: #155215;
+    --yellow: #F0C93A;
+    --blue: #1B4FCC;
+    --white: #F8F5F0;
+    --shadow-out: 6px 6px 14px #C2BDB5, -6px -6px 14px #F4EFE8;
+    --shadow-in: inset 5px 5px 12px #C2BDB5, inset -5px -5px 12px #F4EFE8;
+    --shadow-sm: 3px 3px 8px #C8C3BB, -3px -3px 8px #F4EFE8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 14px; height: 14px;
+    background: var(--red);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease;
+    opacity: 0.5;
+  }
+  .cursor.hovered { width: 8px; height: 8px; background: var(--blue); }
+  .cursor-ring.hovered { width: 50px; height: 50px; opacity: 0.2; }
+
+  /* Floating background shapes */
+  .bg-shapes {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  .shape {
+    position: absolute;
+    opacity: 0.04;
+    animation: floatShape 20s infinite ease-in-out;
+  }
+  .shape.circle1 { width: 400px; height: 400px; border-radius: 50%; background: var(--red); top: -100px; right: -100px; animation-delay: 0s; }
+  .shape.rect1 { width: 200px; height: 200px; background: var(--blue); bottom: 20%; left: -50px; animation-delay: -7s; }
+  .shape.tri1 { width: 0; height: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-bottom: 260px solid var(--yellow); bottom: -40px; right: 15%; opacity: 0.05; animation-delay: -14s; }
+
+  @keyframes floatShape {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(20px, -15px) rotate(5deg); }
+    66% { transform: translate(-10px, 10px) rotate(-3deg); }
+  }
+
+  /* Page layout */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ==========  HEADER  ========== */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 52px 56px;
+    border-radius: 28px;
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 50%, var(--blue) 100%);
+  }
+
+  .hero-bauhaus {
+    position: absolute;
+    top: 20px; right: 56px;
+    display: flex; gap: 8px; align-items: center;
+    opacity: 0.12;
+  }
+  .bauhaus-dot { border-radius: 50%; }
+  .bd1 { width: 32px; height: 32px; background: var(--red); }
+  .bd2 { width: 24px; height: 24px; background: var(--yellow); }
+  .bd3 { width: 18px; height: 18px; background: var(--blue); }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    letter-spacing: 6px;
+    color: var(--ink);
+    line-height: 1;
+    animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .brand-name span { color: var(--green); }
+
+  .brand-tagline {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+    animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .brand-contact {
+    margin-top: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+    animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--ink2);
+  }
+  .contact-icon {
+    width: 30px; height: 30px;
+    background: var(--bg);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .contact-icon:hover { transform: scale(1.1); box-shadow: var(--shadow-out); }
+
+  .invoice-badge {
+    text-align: right;
+    animation: slideInRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+  .pi-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .pi-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 3px;
+    color: var(--blue);
+    display: block;
+    margin-top: 2px;
+  }
+  .pi-meta {
+    margin-top: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .pi-meta-row {
+    display: flex; justify-content: space-between; gap: 24px;
+    font-size: 12px;
+  }
+  .pi-meta-row dt { color: var(--muted); }
+  .pi-meta-row dd { font-weight: 600; color: var(--ink); font-family: 'Space Mono', monospace; }
+
+  /* Validity pill */
+  .validity-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: var(--bg);
+    box-shadow: var(--shadow-in);
+    font-size: 12px; color: var(--ink2);
+  }
+  .validity-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 0 3px rgba(46,204,113,0.2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(46,204,113,0.2)} 50%{box-shadow:0 0 0 6px rgba(46,204,113,0.1)} }
+
+  /* ==========  TWO-COL INFO  ========== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .neo-card {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 20px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .neo-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--yellow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .neo-card:hover::after { transform: scaleX(1); }
+
+  .card-accent {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .accent-red { background: rgba(217,59,43,0.1); }
+  .accent-blue { background: rgba(27,79,204,0.1); }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .info-row {
+    display: flex; flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .info-item { display: flex; flex-direction: column; gap: 3px; }
+  .info-key { font-size: 11px; color: var(--muted); }
+  .info-val {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+  }
+  .info-val:last-of-type { border-bottom: none; }
+
+  /* ==========  SECTION TITLES  ========== */
+  .section-head {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.15), transparent);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--ink);
+  }
+  .section-badge {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .badge-red { background: rgba(217,59,43,0.12); color: var(--red); }
+  .badge-blue { background: rgba(27,79,204,0.12); color: var(--blue); }
+
+  /* ==========  SCOPE SERVICES  ========== */
+  .scope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .scope-card {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 18px;
+    padding: 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .scope-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 10px 10px 24px #C2BDB5, -10px -10px 24px #F4EFE8;
+  }
+  .scope-card.expanded { box-shadow: var(--shadow-in); transform: translateY(2px); }
+
+  .scope-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: rgba(0,0,0,0.05);
+    position: absolute;
+    top: 8px; right: 16px;
+    line-height: 1;
+  }
+
+  .scope-icon {
+    width: 44px; height: 44px;
+    background: var(--bg);
+    box-shadow: var(--shadow-sm);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .scope-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .scope-items {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 7px;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .scope-card.expanded .scope-items { max-height: 300px; }
+  .scope-items li {
+    font-size: 12.5px; color: var(--ink2);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .scope-items li::before {
+    content: '▸';
+    color: var(--red);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .scope-toggle {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--blue);
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  /* ==========  PRICING TABLE  ========== */
+  .pricing-wrap {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .pricing-header {
+    background: var(--ink);
+    color: var(--white);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    padding: 14px 28px;
+    gap: 16px;
+  }
+  .pricing-header span {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .pricing-header span:not(:first-child) { text-align: right; }
+
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    padding: 18px 28px;
+    gap: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    align-items: center;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+    position: relative;
+  }
+  .pricing-row:hover {
+    background: rgba(240,201,58,0.06);
+  }
+  .pricing-row:last-child { border-bottom: none; }
+
+  .pricing-row .service-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .pricing-row .service-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .pricing-row .amount {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--ink2);
+    text-align: right;
+  }
+  .pricing-row .total-amt {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue);
+    text-align: right;
+  }
+
+  /* Bauhaus bar decoration */
+  .row-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom;
+  }
+  .pricing-row:hover .row-bar { transform: scaleY(1); }
+  .bar-0 { background: var(--red); }
+  .bar-1 { background: var(--yellow); }
+  .bar-2 { background: var(--blue); }
+  .bar-3 { background: var(--red); }
+  .bar-4 { background: var(--yellow); }
+
+  /* Total row */
+  .pricing-total {
+    background: var(--ink);
+    padding: 22px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .total-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.5);
+  }
+  .total-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+  }
+  .total-words {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .gst-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+  }
+
+  /* ==========  GROWTH PROJECTION  ========== */
+  .growth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .growth-card {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 18px;
+    padding: 22px 24px;
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .growth-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .growth-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .growth-bar-wrap {
+    height: 6px;
+    background: var(--bg);
+    box-shadow: var(--shadow-in);
+    border-radius: 10px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .growth-bar {
+    height: 100%;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gb-red { background: linear-gradient(90deg, var(--red), #FF6B5B); }
+  .gb-blue { background: linear-gradient(90deg, var(--blue), #4A90E2); }
+  .gb-yellow { background: linear-gradient(90deg, #B8860B, var(--yellow)); }
+
+  /* ==========  ROI BLOCK  ========== */
+  .roi-block {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .roi-invest {
+    text-align: center;
+  }
+  .roi-invest-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .roi-invest-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    color: var(--ink);
+  }
+
+  .roi-arrow-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .roi-arrow-track {
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--red), var(--yellow), #2ecc71);
+    position: relative;
+    border-radius: 2px;
+  }
+  .roi-arrow-dot {
+    position: absolute; right: -5px; top: -5px;
+    width: 12px; height: 12px;
+    background: #2ecc71;
+    border-radius: 50%;
+    animation: slideRight 2s infinite;
+  }
+  @keyframes slideRight {
+    0% { right: 100%; opacity: 0; }
+    20% { opacity: 1; }
+    100% { right: -6px; opacity: 1; }
+  }
+  .roi-multiplier {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .roi-multiplier span { color: #2ecc71; }
+
+  .roi-return { text-align: center; }
+  .roi-return-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .roi-return-range {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: #2ecc71;
+  }
+
+  /* ==========  OUTCOMES  ========== */
+  .outcomes-block {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+  }
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .outcome-item {
+    background: var(--bg);
+    box-shadow: var(--shadow-in);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 12px;
+    transition: box-shadow 0.3s ease;
+  }
+  .outcome-item:hover { box-shadow: var(--shadow-out); }
+  .outcome-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .od-r { background: var(--red); }
+  .od-b { background: var(--blue); }
+  .od-y { background: #B8860B; }
+  .outcome-text { font-size: 13px; font-weight: 500; color: var(--ink2); line-height: 1.5; }
+
+  /* ==========  PAYMENT TERMS  ========== */
+  .payment-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .payment-card {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 18px;
+    padding: 26px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-circle {
+    width: 48px; height: 48px;
+    background: var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--yellow);
+    margin-bottom: 16px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+  }
+  .payment-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; color: var(--ink); }
+  .payment-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .payment-highlight {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+
+  /* ==========  BANK TAGS  ========== */
+  .bank-block {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bank-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue));
+  }
+  .bank-block .section-title { color: var(--white); }
+  .bank-block .section-line { background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent); }
+  .bank-tags {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 20px;
+  }
+  .bank-tag {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    transition: background 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+  .bank-tag:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+  .bank-tag-icon { font-size: 16px; }
+
+  /* ==========  DECLARATION  ========== */
+  .declaration-block {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+  }
+  .declaration-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-style: italic;
+    border-left: 3px solid var(--yellow);
+    padding-left: 20px;
+    margin-top: 16px;
+  }
+
+  /* ==========  SIGN ROW  ========== */
+  .sign-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .sign-card {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+  .sign-box {
+    height: 70px;
+    background: var(--bg);
+    box-shadow: var(--shadow-in);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .sign-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+  /* ==========  FOOTER  ========== */
+  .footer-bar {
+    background: var(--bg);
+    box-shadow: var(--shadow-out);
+    border-radius: 16px;
+    padding: 20px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: var(--ink);
+    opacity: 0.3;
+  }
+  .footer-meta { font-size: 11px; color: var(--muted); text-align: center; }
+  .bauhaus-strip {
+    display: flex; gap: 0;
+    border-radius: 6px; overflow: hidden;
+  }
+  .bs { width: 20px; height: 20px; }
+
+  /* ==========  PRINT BUTTON  ========== */
+  .print-fab {
+    position: fixed;
+    bottom: 40px; right: 40px;
+    width: 58px; height: 58px;
+    background: var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    color: var(--yellow);
+    cursor: pointer;
+    box-shadow: 6px 6px 20px rgba(0,0,0,0.3), -3px -3px 10px rgba(255,255,255,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 100;
+    border: none;
+    outline: none;
+  }
+  .print-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 8px 8px 28px rgba(0,0,0,0.4);
+  }
+  .print-fab:active { transform: scale(0.95); }
+  .print-tooltip {
+    position: fixed;
+    bottom: 50px; right: 108px;
+    background: var(--ink);
+    color: var(--white);
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+  .print-fab:hover + .print-tooltip { opacity: 1; }
+
+  /* ==========  SCROLL REVEAL  ========== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Delays for children */
+  .reveal-d1 { transition-delay: 0.05s; }
+  .reveal-d2 { transition-delay: 0.12s; }
+  .reveal-d3 { transition-delay: 0.19s; }
+  .reveal-d4 { transition-delay: 0.26s; }
+  .reveal-d5 { transition-delay: 0.33s; }
+
+  /* Animations */
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ==========  PRINT STYLES  ========== */
+  @media print {
+    body { cursor: auto; background: white; }
+    .cursor, .cursor-ring, .bg-shapes, .print-fab, .print-tooltip { display: none !important; }
+    .neo-card, .scope-card, .growth-card, .roi-block, .outcomes-block,
+    .payment-card, .bank-block, .declaration-block, .sign-card, .footer-bar, .hero, .pricing-wrap {
+      box-shadow: none !important;
+      border: 1px solid #ddd;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .scope-items { max-height: none !important; }
+    @page { margin: 1.5cm; }
+  }
+
+  @media (max-width: 700px) {
+    .hero { grid-template-columns: 1fr; padding: 32px 28px; }
+    .invoice-badge { text-align: left; }
+    .info-grid, .growth-grid, .payment-block, .sign-row, .roi-block { grid-template-columns: 1fr; }
+    .pricing-header, .pricing-row { grid-template-columns: 2fr 1fr 1fr; }
+    .pricing-header span:nth-child(3),
+    .pricing-row .amount:first-of-type { display: none; }
+    .brand-name { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Background Shapes -->
+<div class="bg-shapes">
+  <div class="shape circle1"></div>
+  <div class="shape rect1"></div>
+  <div class="shape tri1"></div>
+</div>
+
+<!-- Print Button -->
+<button class="print-fab" onclick="window.print()" title="Print Invoice">🖨</button>
+<div class="print-tooltip">Print / Save PDF</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bauhaus">
+      <div class="bauhaus-dot bd1"></div>
+      <div class="bauhaus-dot bd2"></div>
+      <div class="bauhaus-dot bd3"></div>
+    </div>
+
+    <div>
+      <div class="brand-name"><span>N</span>ETSAURS</div>
+      <div class="brand-tagline">Digital Marketing &amp; Growth Services</div>
+      <div class="brand-contact">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          +91 8778768018
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          netsaursofficial@gmail.com
+        </div>
+      </div>
+    </div>
+
+    <div class="invoice-badge">
+      <div class="pi-label">Proforma Invoice</div>
+      <span class="pi-number">PI-2026-001</span>
+      <div class="pi-meta">
+        <dl class="pi-meta-row"><dt>Date</dt><dd>18 May 2026</dd></dl>
+        <dl class="pi-meta-row"><dt>Duration</dt><dd>12 Months</dd></dl>
+        <dl class="pi-meta-row"><dt>Currency</dt><dd>INR ₹</dd></dl>
+      </div>
+      <div class="validity-pill">
+        <span class="validity-dot"></span>
+        Valid for 30 days
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT + PROVIDER INFO -->
+  <div class="info-grid reveal">
+    <div class="neo-card reveal-d1">
+      <div class="card-accent accent-blue">🏢</div>
+      <div class="card-label">Service Provider</div>
+      <div class="info-row">
+        <div class="info-item">
+          <span class="info-key">Business Name</span>
+          <span class="info-val">Netsaurs</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">Phone</span>
+          <span class="info-val">+91 8778768018</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">Email</span>
+          <span class="info-val">netsaursofficial@gmail.com</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">GSTIN</span>
+          <span class="info-val">As Applicable</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="neo-card reveal-d2">
+      <div class="card-accent accent-red">👤</div>
+      <div class="card-label">Client Information</div>
+      <div class="info-row">
+        <div class="info-item">
+          <span class="info-key">Client Name</span>
+          <span class="info-val">Moni</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">Business Name</span>
+          <span class="info-val">SkinScience999</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">Address</span>
+          <span class="info-val">220/84, S Park St, Secretariat Colony, Venkatapuram, O.T, Ambattur, Chennai, Tamil Nadu 600053</span>
+        </div>
+        <div class="info-item">
+          <span class="info-key">Phone / Email</span>
+          <span class="info-val">+91 8667065130</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE OF SERVICES -->
+  <div class="section-head reveal">
+    <div class="section-title">Scope of Services</div>
+    <div class="section-line"></div>
+    <div class="section-badge badge-blue">5 Services</div>
+  </div>
+
+  <div class="scope-grid reveal">
+    <div class="scope-card reveal-d1" onclick="toggleScope(this)">
+      <div class="scope-num">01</div>
+      <div class="scope-icon">🌐</div>
+      <div class="scope-name">Website Development & Maintenance</div>
+      <ul class="scope-items">
+        <li>Premium business website development</li>
+        <li>Mobile responsive UI/UX design</li>
+        <li>SEO-friendly architecture</li>
+        <li>Landing page creation</li>
+        <li>Lead capture integration</li>
+        <li>Monthly maintenance & updates</li>
+        <li>Website security & optimization</li>
+      </ul>
+      <span class="scope-toggle">↓ View details</span>
+    </div>
+
+    <div class="scope-card reveal-d2" onclick="toggleScope(this)">
+      <div class="scope-num">02</div>
+      <div class="scope-icon">📣</div>
+      <div class="scope-name">Social Media Marketing</div>
+      <ul class="scope-items">
+        <li>Facebook & Instagram ad campaigns</li>
+        <li>Audience targeting & retargeting</li>
+        <li>Creative campaign management</li>
+        <li>Paid lead generation strategy</li>
+        <li>Monthly ad optimization</li>
+      </ul>
+      <span class="scope-toggle">↓ View details</span>
+    </div>
+
+    <div class="scope-card reveal-d3" onclick="toggleScope(this)">
+      <div class="scope-num">03</div>
+      <div class="scope-icon">📲</div>
+      <div class="scope-name">Social Media Management</div>
+      <ul class="scope-items">
+        <li>Daily/weekly content posting</li>
+        <li>Professional creative designs</li>
+        <li>Reels & engagement strategy</li>
+        <li>Audience engagement management</li>
+        <li>Brand positioning & community growth</li>
+      </ul>
+      <span class="scope-toggle">↓ View details</span>
+    </div>
+
+    <div class="scope-card reveal-d4" onclick="toggleScope(this)">
+      <div class="scope-num">04</div>
+      <div class="scope-icon">🔍</div>
+      <div class="scope-name">SEO Services</div>
+      <ul class="scope-items">
+        <li>On-page SEO optimization</li>
+        <li>Technical SEO setup</li>
+        <li>Keyword ranking strategy</li>
+        <li>Local SEO optimization</li>
+        <li>Google Search Console & Analytics integration</li>
+        <li>Monthly SEO performance tracking</li>
+      </ul>
+      <span class="scope-toggle">↓ View details</span>
+    </div>
+
+    <div class="scope-card reveal-d5" onclick="toggleScope(this)">
+      <div class="scope-num">05</div>
+      <div class="scope-icon">🛡</div>
+      <div class="scope-name">ORM — Online Reputation Management</div>
+      <ul class="scope-items">
+        <li>Brand reputation monitoring</li>
+        <li>Review management</li>
+        <li>Search reputation optimization</li>
+        <li>Negative content suppression strategy</li>
+        <li>Brand trust enhancement campaigns</li>
+      </ul>
+      <span class="scope-toggle">↓ View details</span>
+    </div>
+  </div>
+
+  <!-- PRICING TABLE -->
+  <div class="section-head reveal">
+    <div class="section-title">Commercial Proposal</div>
+    <div class="section-line"></div>
+    <div class="section-badge badge-red">12-Month Contract</div>
+  </div>
+
+  <div class="pricing-wrap reveal">
+    <div class="pricing-header">
+      <span>Service</span>
+      <span>Monthly</span>
+      <span>Duration</span>
+      <span>Total</span>
+    </div>
+
+    <div class="pricing-row">
+      <div class="row-bar bar-0"></div>
+      <div>
+        <div class="service-name">Website Development & Maintenance</div>
+        <div class="service-sub">Full stack web presence</div>
+      </div>
+      <div class="amount">₹1,667</div>
+      <div class="amount">12 Months</div>
+      <div class="total-amt">₹20,004</div>
+    </div>
+
+    <div class="pricing-row">
+      <div class="row-bar bar-1"></div>
+      <div>
+        <div class="service-name">Social Media Marketing</div>
+        <div class="service-sub">Paid campaign management</div>
+      </div>
+      <div class="amount">₹7,500</div>
+      <div class="amount">12 Months</div>
+      <div class="total-amt">₹90,000</div>
+    </div>
+
+    <div class="pricing-row">
+      <div class="row-bar bar-2"></div>
+      <div>
+        <div class="service-name">Social Media Management</div>
+        <div class="service-sub">Content & community</div>
+      </div>
+      <div class="amount">₹3,500</div>
+      <div class="amount">12 Months</div>
+      <div class="total-amt">₹42,000</div>
+    </div>
+
+    <div class="pricing-row">
+      <div class="row-bar bar-3"></div>
+      <div>
+        <div class="service-name">SEO Services</div>
+        <div class="service-sub">Organic search growth</div>
+      </div>
+      <div class="amount">₹2,500</div>
+      <div class="amount">12 Months</div>
+      <div class="total-amt">₹30,000</div>
+    </div>
+
+    <div class="pricing-row">
+      <div class="row-bar bar-4"></div>
+      <div>
+        <div class="service-name">ORM Services</div>
+        <div class="service-sub">Reputation management</div>
+      </div>
+      <div class="amount">₹1,500</div>
+      <div class="amount">12 Months</div>
+      <div class="total-amt">₹18,000</div>
+    </div>
+
+    <div class="pricing-total">
+      <div>
+        <div class="total-label">Total Contract Value</div>
+        <div class="total-words">Rupees One Lakh Ninety Nine Thousand Nine Hundred Ninety Two Only</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="total-value">₹2,00,004</div>
+        <div class="gst-note">+ GST & Ad Budget as applicable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROWTH PROJECTIONS -->
+  <div class="section-head reveal">
+    <div class="section-title">Digital Growth Projection</div>
+    <div class="section-line"></div>
+    <div class="section-badge badge-blue">12 Months</div>
+  </div>
+
+  <div class="growth-grid reveal" id="growthGrid">
+    <div class="growth-card reveal-d1">
+      <div class="growth-label">Instagram & Facebook Followers</div>
+      <div class="growth-value counter" data-target="15000">0</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">8,000 – 15,000+ followers</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-red" data-w="85"></div></div>
+    </div>
+    <div class="growth-card reveal-d2">
+      <div class="growth-label">Monthly Social Media Reach</div>
+      <div class="growth-value"><span class="counter" data-target="5">0</span> Lakh Users</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">2.5 Lakh – 5 Lakh users</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-blue" data-w="70"></div></div>
+    </div>
+    <div class="growth-card reveal-d3">
+      <div class="growth-label">Website Traffic Increase</div>
+      <div class="growth-value"><span class="counter" data-target="5000">0</span> Visitors</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">2500 - 5000 visitors</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-yellow" data-w="75"></div></div>
+    </div>
+    <div class="growth-card reveal-d4">
+      <div class="growth-label">Organic Leads (SEO + Social)</div>
+      <div class="growth-value"><span class="counter" data-target="200">0</span> Enquiries</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">120 – 200 qualified enquiries</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-red" data-w="65"></div></div>
+    </div>
+    <div class="growth-card reveal-d5">
+      <div class="growth-label">Paid Advertisement Leads</div>
+      <div class="growth-value"><span class="counter" data-target="600">0</span> Leads</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">450 – 600 targeted leads</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-blue" data-w="80"></div></div>
+    </div>
+    <div class="growth-card reveal-d1">
+      <div class="growth-label">Customer Engagement Growth</div>
+      <div class="growth-value"><span class="counter" data-target="400">0</span>%</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">250% – 400% increase</div>
+      <div class="growth-bar-wrap"><div class="growth-bar gb-yellow" data-w="90"></div></div>
+    </div>
+  </div>
+
+  <!-- ROI BLOCK -->
+  <div class="section-head reveal">
+    <div class="section-title">Return on Investment</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="roi-block reveal">
+    <div class="roi-invest">
+      <div class="roi-invest-label">Your Investment</div>
+      <div class="roi-invest-val">₹2,00,000</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;">12 Month Contract</div>
+    </div>
+    <div class="roi-arrow-wrap">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Projected Return</div>
+      <div class="roi-arrow-track">
+        <div class="roi-arrow-dot"></div>
+      </div>
+      <div class="roi-multiplier">Multiplier <span>2.2x – 3.2x</span></div>
+    </div>
+    <div class="roi-return">
+      <div class="roi-return-label">Estimated Value</div>
+      <div class="roi-return-range">₹4.5L – ₹6.5L</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;">Business Generation Value</div>
+    </div>
+  </div>
+
+  <!-- EXPECTED OUTCOMES -->
+  <div class="outcomes-block reveal">
+    <div class="section-head">
+      <div class="section-title">Expected Business Outcomes</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item">
+        <div class="outcome-dot od-r"></div>
+        <div class="outcome-text">Strong online brand authority</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-b"></div>
+        <div class="outcome-text">Increased customer trust & credibility</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-y"></div>
+        <div class="outcome-text">Higher lead conversion opportunities</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-r"></div>
+        <div class="outcome-text">Long-term organic traffic generation</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-b"></div>
+        <div class="outcome-text">Improved customer acquisition efficiency</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-y"></div>
+        <div class="outcome-text">Better market positioning vs competitors</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-dot od-r"></div>
+        <div class="outcome-text">Sustainable digital growth strategy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT TERMS -->
+  <div class="section-head reveal">
+    <div class="section-title">Payment Terms</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="payment-block reveal">
+    <div class="payment-card reveal-d1">
+      <div class="step-circle">01</div>
+      <div class="payment-highlight">50% Advance</div>
+      <div class="payment-title">On Project Confirmation</div>
+      <div class="payment-desc">50% of the total contract value is due upon signing and confirmation of the project — before work commences.</div>
+    </div>
+    <div class="payment-card reveal-d2">
+      <div class="step-circle">02</div>
+      <div class="payment-highlight">Monthly Billing</div>
+      <div class="payment-title">Scheduled Monthly Cycle</div>
+      <div class="payment-desc">Remaining balance payable in scheduled monthly billing cycles throughout the contract duration.</div>
+    </div>
+    <div class="payment-card reveal-d3" style="grid-column: span 2;">
+      <div class="payment-title" style="margin-bottom:10px;">Additional Notes</div>
+      <div class="payment-desc" style="display:flex;flex-direction:column;gap:8px;">
+        <span>📢 Paid advertisement budgets are billed separately based on campaign scale.</span>
+        <span>🔧 Additional development outside agreed scope will be quoted separately.</span>
+        <span>📄 All prices are exclusive of GST as applicable.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANK / FINANCIAL -->
+  <div class="bank-block reveal">
+    <div class="section-head">
+      <div class="section-title">Bank & Financial Evaluation</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="bank-tags">
+      <div class="bank-tag"><span class="bank-tag-icon">📈</span> Business Expansion</div>
+      <div class="bank-tag"><span class="bank-tag-icon">💻</span> Digital Infrastructure Development</div>
+      <div class="bank-tag"><span class="bank-tag-icon">💰</span> Revenue Generation Enhancement</div>
+      <div class="bank-tag"><span class="bank-tag-icon">🎯</span> Customer Acquisition Scaling</div>
+      <div class="bank-tag"><span class="bank-tag-icon">🏷</span> Brand Asset Creation</div>
+      <div class="bank-tag"><span class="bank-tag-icon">🌱</span> Long-Term Operational Growth</div>
+    </div>
+  </div>
+
+  <!-- DECLARATION -->
+  <div class="declaration-block reveal">
+    <div class="section-head">
+      <div class="section-title">Declaration</div>
+      <div class="section-line"></div>
+    </div>
+    <p class="declaration-text">
+      This Proforma Invoice is issued against proposed digital marketing and web development services for commercial and financial documentation purposes. All performance projections mentioned are estimated based on industry standards, target audience behavior, market trends, and planned campaign execution strategies.
+    </p>
+  </div>
+
+  <!-- AUTHORIZED SIGNATORY -->
+  <div class="section-head reveal">
+    <div class="section-title">Authorized Signatory</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="sign-row reveal">
+    <div class="sign-card">
+      <div class="sign-box">Dharun Kumar N</div>
+      <div class="sign-label">Authorized Name</div>
+    </div>
+    <div class="sign-card">
+      <div class="sign-box">Founder</div>
+      <div class="sign-label">Title / Role</div>
+    </div>
+    <div class="sign-card">
+      <div class="sign-box">Dharun Kumar</div>
+      <div class="sign-label">Official Signature</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar reveal">
+    <div class="footer-brand">NETSAURS</div>
+    <div class="footer-meta">
+      <div>PI-2026-001 · 18 May 2026 · Valid 30 Days</div>
+      <div style="margin-top:4px;">netsaursofficial@gmail.com · +91 8778768018</div>
+    </div>
+    <div class="bauhaus-strip">
+      <div class="bs" style="background:var(--red);"></div>
+      <div class="bs" style="background:var(--yellow);"></div>
+      <div class="bs" style="background:var(--blue);"></div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  /* --- Custom Cursor --- */
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .scope-card, .bank-tag, .outcome-item, .contact-icon, .print-fab').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
+  });
+
+  /* --- Scope Toggle --- */
+  function toggleScope(card) {
+    const isExpanded = card.classList.contains('expanded');
+    document.querySelectorAll('.scope-card').forEach(c => {
+      c.classList.remove('expanded');
+      c.querySelector('.scope-toggle').textContent = '↓ View details';
+    });
+    if (!isExpanded) {
+      card.classList.add('expanded');
+      card.querySelector('.scope-toggle').textContent = '↑ Hide details';
+    }
+  }
+
+  /* --- Scroll Reveal --- */
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(r => revealObs.observe(r));
+
+  /* --- Counter Animation --- */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = Math.floor(current).toLocaleString('en-IN');
+    }, 16);
+  }
+
+  /* --- Growth Bars --- */
+  function animateBars() {
+    document.querySelectorAll('.growth-bar').forEach(bar => {
+      bar.style.width = bar.dataset.w + '%';
+    });
+    document.querySelectorAll('.counter').forEach(animateCounter);
+  }
+
+  const growthObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateBars(); growthObs.disconnect(); }
+    });
+  }, { threshold: 0.3 });
+  const growthGrid = document.getElementById('growthGrid');
+  if (growthGrid) growthObs.observe(growthGrid);
+
+  /* --- Pricing Row Hover Ripple --- */
+  document.querySelectorAll('.pricing-row').forEach(row => {
+    row.addEventListener('mousemove', e => {
+      const rect = row.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      row.style.background = `radial-gradient(circle at ${x}px center, rgba(240,201,58,0.08) 0%, transparent 70%)`;
+    });
+    row.addEventListener('mouseleave', () => { row.style.background = ''; });
+  });
+
+  /* --- Typewriter on brand name (subtle) --- */
+  const brand = document.querySelector('.brand-name');
+  if (brand) {
+    setTimeout(() => {
+      brand.style.borderRight = '3px solid var(--red)';
+      brand.style.animation = 'slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) both';
+      setTimeout(() => { brand.style.borderRight = 'none'; }, 1200);
+    }, 400);
+  }
+
+  /* --- Parallax on bg shapes --- */
+  document.addEventListener('mousemove', e => {
+    const xp = (e.clientX / window.innerWidth - 0.5) * 20;
+    const yp = (e.clientY / window.innerHeight - 0.5) * 20;
+    document.querySelector('.shape.circle1').style.transform = `translate(${xp}px, ${yp}px)`;
+    document.querySelector('.shape.rect1').style.transform = `translate(${-xp * 0.5}px, ${-yp * 0.5}px)`;
+  });
+</script>
+</body>
+</html>
